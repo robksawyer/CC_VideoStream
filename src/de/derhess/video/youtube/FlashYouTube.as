@@ -1,12 +1,13 @@
 package de.derhess.video.youtube {
+	
 	import flash.display.MovieClip;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.net.URLRequest;
-
+	import flash.system.Security;
 	
 	
-    /**
+	 /**
 	 * released under MIT License (X11)
 	 * http://www.opensource.org/licenses/mit-license.php
 	 * 
@@ -15,48 +16,59 @@ package de.derhess.video.youtube {
 	 * @author Florian Weil [derhess.de, Deutschland]
 	 * @see http://blog.derhess.de
 	 */
-    public class FlashYouTube extends MovieClip
-    {
-        //--------------------------------------------------------------------------
-        //
-        //  Class variables
-        //
-        //--------------------------------------------------------------------------
-        
-        //--------------------------------------------------------------------------
-        //
-        //  Variables
-        //
-        //--------------------------------------------------------------------------
-        private var loader:Loader;
+	public class FlashYouTube extends MovieClip
+	{
+		//--------------------------------------------------------------------------
+		//
+		//  Class variables
+		//
+		//--------------------------------------------------------------------------
+		
+		private static const PLAYER_URL:String = "http://www.youtube.com/apiplayer?version=3";
+		private static const SECURITY_DOMAIN:String = "http://www.youtube.com";
+		private static const YOUTUBE_API_PREFIX:String ="http://gdata.youtube.com/feeds/api/videos/";
+		private static const YOUTUBE_API_VERSION:String = "2";
+		private static const YOUTUBE_API_FORMAT:String = "5";
+
+		//--------------------------------------------------------------------------
+		//
+		//  Variables
+		//
+		//--------------------------------------------------------------------------
+		private var loader:Loader;
 		private var player:Object;
 		private var isPlayerLoaded:Boolean = false;
-        //--------------------------------------------------------------------------
-        //
-        //  Initialization
-        //
-        //--------------------------------------------------------------------------
-        public function FlashYouTube()
-        {
-        	super();
-        	loader = new Loader();
-        	loader.contentLoaderInfo.addEventListener(Event.INIT, handleLoaderInit);
-			loader.load(new URLRequest("http://www.youtube.com/apiplayer?version=3"));
-        }
-        
-        
-       
-        //--------------------------------------------------------------------------
-        //
-        //  Properties
-        //
-        //--------------------------------------------------------------------------
-        /** @private */
+
+		//--------------------------------------------------------------------------
+		//
+		//  Initialization
+		//
+		//--------------------------------------------------------------------------
+		public function FlashYouTube()
+		{
+			super();
+
+			Security.allowDomain("www.youtube.com");
+			Security.allowDomain("s.ytimg.com");
+		
+			loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.INIT, handleLoaderInit);
+			loader.load(new URLRequest(PLAYER_URL));
+		}
+		
+		
+	 
+		//--------------------------------------------------------------------------
+		//
+		//  Properties
+		//
+		//--------------------------------------------------------------------------
+		/** @private */
 		private var _volume:int = 100;
+		
 		/**
 		 * Accepts an integer between 0 and 100.
 		 */
-		
 		public function get volume():int
 		{
 			return _volume;	
@@ -99,128 +111,128 @@ package de.derhess.video.youtube {
 				player.setPlaybackQuality(value);
 			
 		}
-        
 
-        //--------------------------------------------------------------------------
-        //
-        //  Additional getters and setters
-        //
-        //--------------------------------------------------------------------------
-        public function isMuted():Boolean
-        {
-        	if(isPlayerLoaded)
-        		return player.isMuted();
-        	else
-        		return false;
-        }
-        
-        public function getVideoBytesLoaded():Number
-        {
-        	
-        	if(isPlayerLoaded)
-        		return player.getVideoBytesLoaded();
-        	else
-        		return 0;
-        }
-        
-        public function getVideoBytesTotal():Number
-        {
-        	if(isPlayerLoaded)
-        		return player.getVideoBytesTotal();
-        	else
-        		return 0;
-        }
-        
-        public function getVideoStartBytes():Number
-        {
-        	if(isPlayerLoaded)
-        		return player.getVideoStartBytes();
-        	else
-        		return 0;
-        }
-        
-        
-        
-        public function getCurrentTime():Number
-        {
-        	if(isPlayerLoaded)
-        		return player.getCurrentTime();
-        	else
-        		return 0;
-        }
-        
-        public function getDuration():Number
-        {
-        	if(isPlayerLoaded)
-        		return player.getDuration();
-        	else
-        		return 0
-        }
-        
-        public function getVideoUrl():String
-        {
-        	if(isPlayerLoaded)
-        		return player.getVideoUrl();
-        	else
-        		return "";
-        }
-        
-        public function getVideoEmbedCode():String
-        {
-        	if(isPlayerLoaded)
-        		return player.getVideoEmbedCode();
-        	else
-        		return "";
-        }
-        
-        public function getAvailableQualityLevels():Array
-        {
-        	if(isPlayerLoaded)
-        		return player.getAvailableQualityLevels();
-        	else
-        		return [];
-        }
-        //--------------------------------------------------------------------------
-        //
-        //  Methods
-        //
-        //--------------------------------------------------------------------------
-        
-        //--------------------------------------------------------------------------
-        //
-        //  API
-        //
-        //--------------------------------------------------------------------------
-        
-        //----------------------------------
+		//--------------------------------------------------------------------------
+		//
+		//  Additional getters and setters
+		//
+		//--------------------------------------------------------------------------
+		public function isMuted():Boolean
+		{
+			if(isPlayerLoaded)
+				return player.isMuted();
+			else
+				return false;
+		}
+		
+		public function getVideoBytesLoaded():Number
+		{
+			
+			if(isPlayerLoaded)
+				return player.getVideoBytesLoaded();
+			else
+				return 0;
+		}
+		
+		public function getVideoBytesTotal():Number
+		{
+			if(isPlayerLoaded)
+				return player.getVideoBytesTotal();
+			else
+				return 0;
+		}
+		
+		public function getVideoStartBytes():Number
+		{
+			if(isPlayerLoaded)
+				return player.getVideoStartBytes();
+			else
+				return 0;
+		}
+		
+		
+		
+		public function getCurrentTime():Number
+		{
+			if(isPlayerLoaded)
+				return player.getCurrentTime();
+			else
+				return 0;
+		}
+		
+		public function getDuration():Number
+		{
+			if(isPlayerLoaded)
+				return player.getDuration();
+			else
+				return 0
+		}
+		
+		public function getVideoUrl():String
+		{
+			if(isPlayerLoaded)
+				return player.getVideoUrl();
+			else
+				return "";
+		}
+		
+		public function getVideoEmbedCode():String
+		{
+			if(isPlayerLoaded)
+				return player.getVideoEmbedCode();
+			else
+				return "";
+		}
+		
+		public function getAvailableQualityLevels():Array
+		{
+			if(isPlayerLoaded)
+				return player.getAvailableQualityLevels();
+			else
+				return [];
+		}
+
+		//--------------------------------------------------------------------------
+		//
+		//  Methods
+		//
+		//--------------------------------------------------------------------------
+		
+		//--------------------------------------------------------------------------
+		//
+		//  API
+		//
+		//--------------------------------------------------------------------------
+		
+		//----------------------------------
 		//  load new YouTube videos - look at the Queueing functions YouTube documentation 
 		//----------------------------------
-        public function cueVideoById(videoId:String, startSeconds:Number, suggestedQuality:String):void
-        {
-        	if(isPlayerLoaded)
-	        	player.cueVideoById(videoId, startSeconds, suggestedQuality);
-        	
-        }
-        
-        public function loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String):void
-        {
-        	if(isPlayerLoaded)
-	        	player.loadVideoById(videoId, startSeconds, suggestedQuality);
-        }
-        
-        public function cueVideoByUrl(mediaContentUrl:String, startSeconds:Number):void
-        {
-        	if(isPlayerLoaded)
-        		player.cueVideoByUrl(mediaContentUrl, startSeconds);
-    	}
-    	
-    	public function loadVideoByUrl(mediaContentUrl:String, startSeconds:Number):void
-    	{
-    		if(isPlayerLoaded)
-    			player.loadVideoByUrl(mediaContentUrl, startSeconds);
-    	}
-     
-        //----------------------------------
+		public function cueVideoById(videoId:String, startSeconds:Number, suggestedQuality:String):void
+		{
+			if(isPlayerLoaded)
+				player.cueVideoById(videoId, startSeconds, suggestedQuality);
+			
+		}
+		
+		public function loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String):void
+		{
+			if(isPlayerLoaded)
+				player.loadVideoById(videoId, startSeconds, suggestedQuality);
+		}
+		
+		public function cueVideoByUrl(mediaContentUrl:String, startSeconds:Number):void
+		{
+			if(isPlayerLoaded)
+				player.cueVideoByUrl(mediaContentUrl, startSeconds);
+		}
+		
+		public function loadVideoByUrl(mediaContentUrl:String, startSeconds:Number):void
+		{
+			if(isPlayerLoaded)
+				player.loadVideoByUrl(mediaContentUrl, startSeconds);
+		}
+	 
+		//----------------------------------
 		//  Playback controls and player settings
 		//----------------------------------
 		public function playVideo():void
@@ -273,10 +285,10 @@ package de.derhess.video.youtube {
 			if(isPlayerLoaded && player)
 			{
 				player.removeEventListener("onReady", handlePlayerReady);
-			    player.removeEventListener("onError", handlePlayerError);
-			    player.removeEventListener("onStateChange", handlePlayerStateChange);
-			    player.removeEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
-		    
+					player.removeEventListener("onError", handlePlayerError);
+					player.removeEventListener("onStateChange", handlePlayerStateChange);
+					player.removeEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
+				
 				player.destroy();
 				
 				loader.unload();
@@ -285,91 +297,91 @@ package de.derhess.video.youtube {
 			}
 		}
 
-        //--------------------------------------------------------------------------
-        //
-        //  Eventhandling
-        //
-        //--------------------------------------------------------------------------
-        private function handleLoaderInit(event:Event):void 
-        {
-		    addChild(loader);
-		    player = loader.content;
-		    player.addEventListener("onReady", handlePlayerReady);
-		    player.addEventListener("onError", handlePlayerError);
-		    player.addEventListener("onStateChange", handlePlayerStateChange);
-		    player.addEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
-		    
+		//--------------------------------------------------------------------------
+		//
+		//  Eventhandling
+		//
+		//--------------------------------------------------------------------------
+		private function handleLoaderInit(event:Event):void 
+		{
+			addChild(loader);
+			player = loader.content;
+			player.addEventListener("onReady", handlePlayerReady);
+			player.addEventListener("onError", handlePlayerError);
+			player.addEventListener("onStateChange", handlePlayerStateChange);
+			player.addEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
+		
 		}
 
 		//--------------------------------------------------------------------------
-        //
-        //  Broadcasting
-        //
-        //--------------------------------------------------------------------------
+		//
+		//  Broadcasting
+		//
+		//--------------------------------------------------------------------------
 		private function handlePlayerReady(event:Event):void 
 		{
-		    // Event.data contains the event parameter, which is the Player API ID 
-		    //trace("player ready:", Object(event).data);
-		
-		    // Once this event has been dispatched by the player, we can use
-		    // cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
-		    // to load a particular YouTube video.
-		    isPlayerLoaded = true;
-		    
-		    player.x = 0;
-		    player.y = 0;
-		    player.setSize(this.width,this.height);
-		    player.setVolume(_volume);
-		    var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.PLAYER_LOADED);
-		    dispatchEvent(myEvent);
+			// Event.data contains the event parameter, which is the Player API ID 
+			//trace("player ready:", Object(event).data);
+
+			// Once this event has been dispatched by the player, we can use
+			// cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
+			// to load a particular YouTube video.
+			isPlayerLoaded = true;
+			
+			player.x = 0;
+			player.y = 0;
+			player.setSize(this.width,this.height);
+			player.setVolume(_volume);
+			var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.PLAYER_LOADED);
+			dispatchEvent(myEvent);
 		}
 		
 		private function handlePlayerError(event:Event):void 
 		{
-		    // Event.data contains the event parameter, which is the error code
-		    //trace("player error:", Object(event).data);
-		    var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.ERROR);
-		    myEvent.errorCode = Object(event).data as Number;
-		    dispatchEvent(myEvent);
+			// Event.data contains the event parameter, which is the error code
+			//trace("player error:", Object(event).data);
+			var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.ERROR);
+			myEvent.errorCode = Object(event).data as Number;
+			dispatchEvent(myEvent);
 		}
 		
 		private function handlePlayerStateChange(event:Event):void 
 		{
-		    // Event.data contains the event parameter, which is the new player state
-		    //trace("player state:", Object(event).data);
-		  	this.playerState = Object(event).data as Number;
-		  	
-		  	var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.STATUS);
-		    myEvent.playerState = playerState;
-		    
-		    if((playerState != YouTubePlayingState.UNSTARTED) && (playerState != YouTubePlayingState.BUFFERING))
-		    {
-		    	myEvent.currentTime = getCurrentTime();
-		    	myEvent.duration = getDuration();
-		    	myEvent.playbackQuality = playbackQuality;
-		    } 
-		    
-		    dispatchEvent(myEvent);
+			// Event.data contains the event parameter, which is the new player state
+			//trace("player state:", Object(event).data);
+			this.playerState = Object(event).data as Number;
+			
+			var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.STATUS);
+			myEvent.playerState = playerState;
+			
+			if((playerState != YouTubePlayingState.UNSTARTED) && (playerState != YouTubePlayingState.BUFFERING))
+			{
+				myEvent.currentTime = getCurrentTime();
+				myEvent.duration = getDuration();
+				myEvent.playbackQuality = playbackQuality;
+			} 
+			
+			dispatchEvent(myEvent);
 		}
 		
 		private function handleVideoPlaybackQualityChange(event:Event):void 
 		{
-		    // Event.data contains the event parameter, which is the new video quality
-		    //trace("video quality:", Object(event).data);
-		    _playbackQuality = Object(event).data as String;
-			
+			// Event.data contains the event parameter, which is the new video quality
+			//trace("video quality:", Object(event).data);
+			_playbackQuality = Object(event).data as String;
+		
 			var myEvent:YouTubeEvent = new YouTubeEvent(YouTubeEvent.VIDEO_QUALITY_CHANGE);
-		    myEvent.playerState = playerState;
-		    myEvent.playbackQuality = _playbackQuality;
-		    
-		    if((playerState != YouTubePlayingState.UNSTARTED) && (playerState != YouTubePlayingState.BUFFERING))
-		    {
-		    	myEvent.currentTime = getCurrentTime();
-		    	myEvent.duration = getDuration();
-		    } 
-		    
-		    dispatchEvent(myEvent);
+			myEvent.playerState = playerState;
+			myEvent.playbackQuality = _playbackQuality;
+			
+			if((playerState != YouTubePlayingState.UNSTARTED) && (playerState != YouTubePlayingState.BUFFERING))
+			{
+				myEvent.currentTime = getCurrentTime();
+				myEvent.duration = getDuration();
+			} 
+			
+			dispatchEvent(myEvent);
 		}
 
-    }
+	}
 }
