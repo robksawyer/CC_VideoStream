@@ -48,9 +48,10 @@ package de.derhess.video.youtube {
 		{
 			super();
 
+			Security.allowDomain("*");
 			Security.allowDomain("www.youtube.com");
 			Security.allowDomain("s.ytimg.com");
-		
+
 			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.INIT, handleLoaderInit);
 			loader.load(new URLRequest(PLAYER_URL));

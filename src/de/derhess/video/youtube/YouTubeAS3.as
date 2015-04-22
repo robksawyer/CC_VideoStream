@@ -6,6 +6,8 @@ package de.derhess.video.youtube
 	
 	import mx.core.UIComponent;
 	
+	import flash.system.Security;
+	
 	//--------------------------------------
 	//  Events
 	//--------------------------------------
@@ -53,7 +55,9 @@ package de.derhess.video.youtube
 		//--------------------------------------------------------------------------
 		public function YouTubeAS3()
 		{
-			
+			Security.allowDomain("*");
+			Security.allowDomain("www.youtube.com");
+			Security.allowDomain("s.ytimg.com");
 		}
 		
 		override protected function createChildren():void 
