@@ -243,7 +243,7 @@ package de.derhess.video.youtube {
 		}
 		
 		public function pauseVideo():void
-		{
+		{	
 			if(isPlayerLoaded)
 				player.pauseVideo();
 		}
@@ -286,9 +286,9 @@ package de.derhess.video.youtube {
 			if(isPlayerLoaded && player)
 			{
 				player.removeEventListener("onReady", handlePlayerReady);
-					player.removeEventListener("onError", handlePlayerError);
-					player.removeEventListener("onStateChange", handlePlayerStateChange);
-					player.removeEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
+				player.removeEventListener("onError", handlePlayerError);
+				player.removeEventListener("onStateChange", handlePlayerStateChange);
+				player.removeEventListener("onPlaybackQualityChange", handleVideoPlaybackQualityChange);
 				
 				player.destroy();
 				
