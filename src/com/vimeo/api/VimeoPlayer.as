@@ -269,6 +269,11 @@ package com.vimeo.api
             moogaloop.loadVideo(id);
         }
 
+        public function setVolume(vol:int = 0) : void
+        {
+            moogaloop.volume = vol;
+        }
+
         public function setSize(w:int, h:int) : void
         {
             this.setDimensions(w, h);
